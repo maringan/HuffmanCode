@@ -1,2 +1,2 @@
 # HuffmanCode
-This training of kotlin
+This is training of kotlin
