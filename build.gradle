@@ -1,0 +1,28 @@
+group 'pl.maringan'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.1-2'
+    }
+}
+
+apply plugin: "kotlin"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.jetbrains.kotlin:kotlin-stdlib:1.0.1-2'
+    compile "org.codehaus.groovy:groovy-all:2.4.1"
+    testCompile "org.spockframework:spock-core:1.0-groovy-2.4"
+    testCompile 'org.testng:testng:6.9.10'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.11'
+}
