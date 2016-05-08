@@ -2,13 +2,18 @@ package huffman
 
 import huffman.alphabet.buildNodes
 import huffman.code.CodeGenerator
+import huffman.tree.Node
 import huffman.tree.Tree
+import org.apache.commons.lang3.SerializationUtils
 import java.io.File
 import java.util.*
 
 
+val SUFFIX = ".alphabet.bin"
+
 fun compress(filePath: String, message: String) {
-    val codes = CodeGenerator(Tree(buildNodes(message))).doIt().map { it.char to it.code }.toMap()
+    val tree = Tree(buildNodes(message))
+    val codes = CodeGenerator(tree).doIt().map { it.char to it.code }.toMap()
 
     File(filePath).writeBytes(
             prepareByteBody(codes, message).toByteArray()
@@ -20,9 +25,33 @@ fun compress(filePath: String, message: String) {
             out.newLine()
         }
     }
+
+    File(filePath + SUFFIX).writeBytes(SerializationUtils.serialize(tree))
 }
 
-fun decompress() {
+fun decompress(filePath: String) {
+    val tree = SerializationUtils.deserialize<Tree>(File(filePath + SUFFIX).readBytes())
+    val root = tree.nodes.find { it.parent == null }
+
+    val message = BitSet.valueOf(File(filePath).readBytes())
+
+    var node: Node = root!!
+
+    File(filePath + ".decompressed").printWriter().use { out ->
+        for (i in 0..(message.length() - 1)) {
+            if (message.get(i)) {
+                node = node.leftChild!!
+            } else {
+                node = node.rightChild!!
+            }
+
+            if (node.isLeaf) {
+                print(node.char)
+                out.print(node.char)
+                node = root
+            }
+        }
+    }
 
 }
 

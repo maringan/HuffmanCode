@@ -13,6 +13,7 @@ class HuffmanUtils {
     fun cleaner() {
         File(filePath).delete()
         File(filePath + ".alphabet").delete()
+        File(filePath + ".decompressed").delete()
     }
 
     @Test
@@ -22,6 +23,20 @@ class HuffmanUtils {
 
         // then
         assertEquals(File(filePath).length(), 1)
+    }
+
+
+    @Test
+    fun decompressTest() {
+        // given
+        val message = "My test message"
+        compress(filePath, message)
+
+        // when
+        decompress(filePath)
+
+        // then
+        assertEquals(File(filePath + ".decompressed").readText(), message)
     }
 }
 

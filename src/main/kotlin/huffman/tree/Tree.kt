@@ -1,5 +1,7 @@
 package huffman.tree
 
-class Tree(val alphabet: List<Node>) {
+import java.io.Serializable
+
+class Tree(val alphabet: List<Node>) : Serializable {
     val nodes = buildTree(alphabet)
 }

@@ -1,6 +1,6 @@
 package huffman.tree
 
-import java.util.*
+import java.io.Serializable
 
 data class Node(val weight: Double,
                 val leftChild: Node? = null,
@@ -8,7 +8,7 @@ data class Node(val weight: Double,
                 var parent: Node? = null,
                 val char: Char? = null,
                 var code: List<String> = listOf(),
-                val isLeaf: Boolean = false) {
+                val isLeaf: Boolean = false) : Serializable {
 
     fun isRoot(): Boolean {
         return leftChild != null
