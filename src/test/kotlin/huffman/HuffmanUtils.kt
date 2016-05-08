@@ -18,7 +18,7 @@ class HuffmanUtils {
     @Test
     fun compressTest() {
         // when
-        compress(filePath, File("/Users/kamilkucharski/workspace/huffman-ktl/build/distributions/huffman-1.0-SNAPSHOT/bin/pan-tadeusz.txt").readText())
+        compress(filePath, "abcd")
 
         // then
         assertEquals(File(filePath).length(), 1)
