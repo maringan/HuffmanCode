@@ -20,7 +20,8 @@ fun buildNodes(source: String): List<Node> {
 }
 
 private fun countWeightForEachChar(source: String): List<Pair> {
-    return source.groupBy { it.toChar() }
+    return source
+            .groupBy { it.toChar() }
             .map { Pair(it.key, it.value.size) }
             .toList()
 }
