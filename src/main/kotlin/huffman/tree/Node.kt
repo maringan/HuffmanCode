@@ -1,12 +1,13 @@
 package huffman.tree
 
 import java.io.Serializable
+import java.util.*
 
 data class Node(val weight: Double,
                 val leftChild: Node? = null,
                 val rightChild: Node? = null,
                 var parent: Node? = null,
-                val char: Char? = null,
+                val char: BitSet? = null,
                 var code: List<String> = listOf(),
                 val isLeaf: Boolean = false) : Serializable {
 
@@ -16,8 +17,10 @@ data class Node(val weight: Double,
                 && parent == null
     }
 
-    fun createCode(node: Node, value: String) {
+    fun createCode(node: Node, value: String): Node {
         this.code += node.code
         this.code += value
+
+        return this
     }
 }

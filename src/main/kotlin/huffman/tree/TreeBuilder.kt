@@ -6,8 +6,7 @@ fun buildTree(nodeList: List<Node>): List<Node> {
 
     var sortedNodeCollection = nodeList.sortedBy { it.weight }
 
-    while (sortedNodeCollection.last().weight < 1.0
-            && sortedNodeCollection.filter { it.parent == null }.size != 1 ) {
+    while (sortedNodeCollection.filter { it.parent == null }.size != 1 ) {
 
         var min1 = sortedNodeCollection.filter(withoutParent())[0]
         var min2 = sortedNodeCollection.filter(withoutParent())[1]
