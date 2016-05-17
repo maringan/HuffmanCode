@@ -1,17 +1,17 @@
 package huffman.tree
 
-fun buildTree(nodeList: List<Node>): List<Node> {
-    if (!valid(nodeList))
-        throw Exception("Bad input date")
+import huffman.dictionary.Dictionary
+import huffman.tree.model.Node
 
-    var sortedNodeCollection = nodeList.sortedBy { it.weight }
+fun makeBinaryTreeFromDictionary(dict: Dictionary): Node {
+    var sortedNodeCollection = dict.get().sortedBy { it.weight }
 
-    while (sortedNodeCollection.filter { it.parent == null }.size != 1 ) {
+    while (sortedNodeCollection.filter { it.parent == null }.size != 1) {
 
-        var min1 = sortedNodeCollection.filter(withoutParent())[0]
-        var min2 = sortedNodeCollection.filter(withoutParent())[1]
+        val min1 = sortedNodeCollection.filter(withoutParent())[0]
+        val min2 = sortedNodeCollection.filter(withoutParent())[1]
 
-        var newNode = Node(
+        val newNode = Node(
                 leftChild = min1,
                 rightChild = min2,
                 weight = min1.weight + min2.weight)
@@ -24,11 +24,9 @@ fun buildTree(nodeList: List<Node>): List<Node> {
         sortedNodeCollection = sortedNodeCollection.sortedBy { it.weight }
     }
 
-    return sortedNodeCollection
+    println(sortedNodeCollection.size)
+    println(sortedNodeCollection.filter { it.isLeaf }.size)
+    return sortedNodeCollection.filter { it.isRoot() }.first()
 }
 
 private fun withoutParent(): (Node) -> Boolean = { it.parent == null }
-
-private fun valid(nodeList: List<Node>): Boolean {
-    return nodeList.sumByDouble { it.weight } == 1.0
-}

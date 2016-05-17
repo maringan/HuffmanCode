@@ -1,39 +1,22 @@
 package huffman.tree
 
+import huffman.dictionary.DictionaryFactory
 import org.testng.Assert.*
 import org.testng.annotations.Test
 
-
 class TreeBuilderKtTest {
+    val filePath = "/Users/kamilkucharski/workspace/huffman-ktl/src/test/resources/lalka"
+
     @Test
-    fun shouldBuildFullHuffmanTree() {
+    fun shouldReturnRoot() {
         // given
-        val nodeList = listOf(
-                Node(weight = 0.5, isLeaf = true),
-                Node(weight = 0.4, isLeaf = true),
-                Node(weight = 0.1, isLeaf = true)
-        )
+        val batchSize = 1
+        val dict = DictionaryFactory.fromFile(filePath, batchSize)
 
         // when
-        val huffmanTree = buildTree(nodeList)
+        val root = makeBinaryTreeFromDictionary(dict)
 
         // then
-        assertEquals(huffmanTree.size, 5)
-        assertEquals(huffmanTree.last().weight, 1.0)
-    }
-
-    @Test
-    fun shouldThrowExceptionIfInputArrayIsNotCorrect() {
-        // given
-        val nodeList = listOf(
-                Node(weight = 0.4, isLeaf = true),
-                Node(weight = 0.4, isLeaf = true),
-                Node(weight = 0.1, isLeaf = true)
-        )
-
-        // expect
-        assertThrows {
-            buildTree(nodeList)
-        }
+        assertTrue(root.isRoot())
     }
 }

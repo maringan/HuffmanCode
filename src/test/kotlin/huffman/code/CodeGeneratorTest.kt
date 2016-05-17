@@ -1,22 +1,26 @@
 package huffman.code
 
-import huffman.alphabet.buildNodes
-import huffman.tree.Tree
-import org.testng.annotations.Test
+import huffman.dictionary.DictionaryFactory
+import huffman.tree.makeBinaryTreeFromDictionary
 import org.testng.Assert.*
+import org.testng.annotations.Test
 
 class CodeGeneratorTest {
+    val filePath = "/Users/kamilkucharski/workspace/huffman-ktl/src/test/resources/lalka"
 
     @Test
-    fun shouldGenerateHuffmanCode() {
+    fun shouldGenerateCorrectCode() {
         // given
-        val tree = Tree(buildNodes("abc"))
+        val batchSize = 1
+        val dict = DictionaryFactory.fromFile(filePath, batchSize)
+        val root = makeBinaryTreeFromDictionary(dict)
 
         // when
-        val code = CodeGenerator(tree).doIt()
+        val calculatedRoot = CodeGenerator(root).doIt()
 
         // then
-        assertEquals(code.size, 3)
-        assert(code.any({ it.code.size == 1 }))
+        assertTrue(calculatedRoot.isRoot())
+        assertEquals(root.code.length(), 0)
+        assertEquals(root.leftChild!!.code.length(), 1)
     }
 }

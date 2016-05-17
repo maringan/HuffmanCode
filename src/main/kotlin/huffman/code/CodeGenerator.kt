@@ -1,17 +1,13 @@
 package huffman.code
 
-import huffman.tree.Node
-import huffman.tree.Tree
+import huffman.tree.model.Node
 
 
-class CodeGenerator(val tree: Tree) {
+class CodeGenerator(val root: Node) {
 
-    fun doIt(): List<Node> {
-        val root = tree.nodes.find { it.isRoot() } ?: tree.nodes.first()
-
+    fun doIt(): Node {
         generateCode(root)
-
-        return tree.nodes.filter { it.isLeaf }
+        return root
     }
 
     private fun generateCode(root: Node) {
@@ -21,10 +17,17 @@ class CodeGenerator(val tree: Tree) {
         if (leftChild == null
                 && rightChild == null
                 && root.parent == null) {
-            root.createCode(root, "1")
+            root.createCode(root, true)
         }
 
-        leftChild?.createCode(root, "1")?.let { it -> generateCode(it) }
-        rightChild?.createCode(root, "0")?.let { it -> generateCode(it) }
+        if (leftChild != null) {
+            leftChild.createCode(root, true)
+            generateCode(leftChild)
+        }
+
+        if (rightChild != null) {
+            rightChild.createCode(root, false)
+            generateCode(rightChild)
+        }
     }
 }
